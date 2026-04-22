@@ -37,8 +37,16 @@ class Dehead:
                 with Image.open(input_path) as img:
 
                     results = model(input_path)
-                    boxes =  results[0].boxes.xyxy.tolist()
-                    for box in boxes:
+                    masks =  results[0].boxes.xywh.tolist()
+                    for mask in masks:
+
+                        box = [
+                            int(mask[0] - mask[2] * self.mask_scale / 2),
+                            int(mask[1] - mask[3] * self.mask_scale / 2),
+                            int(mask[0] + mask[2] * self.mask_scale / 2),
+                            int(mask[1] + mask[3] * self.mask_scale / 2),
+                        ]
+
                         draw = ImageDraw.Draw(img)
                         draw.rectangle(box, fill="black")
 
@@ -47,4 +55,5 @@ class Dehead:
 if __name__ == "__main__":
     Dehead(
         input_paths=[PROJECT_DIR / "demo/family.png"],
+        mask_scale=0.8,
     ).process()
