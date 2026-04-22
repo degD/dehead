@@ -51,11 +51,17 @@ class Dehead:
                         # TODO: Refactor needed to avoid code duplication
                         if self.solid_mask:
                             draw = ImageDraw.Draw(img)
-                            draw.rectangle(box, fill="black")
+                            if self.boxes:
+                                draw.rectangle(box, fill="black")
+                            else:
+                                draw.ellipse(box, fill="black")
                         else:
                             blur_mask = Image.new("L", img.size, 0)
-                            draw = ImageDraw.Draw(blur_mask)
-                            draw.rectangle(box, fill=255)
+                            blur_mask_draw = ImageDraw.Draw(blur_mask)
+                            if self.boxes:
+                                blur_mask_draw.rectangle(box, fill="white")
+                            else:
+                                blur_mask_draw.ellipse(box, fill="white")
                             blurred_img = img.filter(ImageFilter.GaussianBlur(BLUR_RADIUS))
                             img.paste(blurred_img, mask=blur_mask)
 
@@ -66,5 +72,6 @@ if __name__ == "__main__":
         input_paths=[PROJECT_DIR / "demo/family.png"],
         output_paths=[PROJECT_DIR / "demo/family-dehead.png"],
         mask_scale=0.8,
+        boxes=False,
         solid_mask=False,
     ).process()
