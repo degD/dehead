@@ -43,13 +43,9 @@ To get an overview of usage and available options, run:
     $ dehead -h
 
 ```
-usage: dehead [--output O] [--thresh T] [--scale WxH] [--preview] [--boxes]
-              [--draw-scores] [--mask-scale M]
-              [--replacewith {blur,solid,none,img,mosaic}]
-              [--replaceimg REPLACEIMG] [--mosaicsize width] [--keep-audio]
-              [--ffmpeg-config FFMPEG_CONFIG] [--backend {auto,onnxrt,opencv}]
-              [--execution-provider EP] [--version] [--help]
-              [input ...]
+usage: dehead [--output O] [--thresh T] [--boxes] [--mask-scale M]
+              [--replacewith {blur,solid}] [--keep-audio]
+              [--version] [--help] [input ...]
 
 Video anonymization by head detection
 
