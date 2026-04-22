@@ -31,7 +31,7 @@ class Dehead:
                 input_path.parent / (input_path.name.split(".")[0] + "-dehead" + input_path.suffix) for input_path in self.input_paths
             ]
 
-    def process(self):
+    def process_imgs(self):
         model = YOLO(MODEL_PATH)
         model.conf = self.threshold
         for i, input_path in enumerate(self.input_paths):
@@ -75,4 +75,4 @@ if __name__ == "__main__":
         mask_scale=0.8,
         boxes=False,
         solid_mask=False,
-    ).process()
+    ).process_imgs()
