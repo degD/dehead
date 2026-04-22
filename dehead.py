@@ -27,7 +27,7 @@ class Dehead:
 
         if self.output_paths is None or len(self.output_paths) != len(self.input_paths):
             self.output_paths = [
-                input_path + "-dehead" + input_path.suffix for input_path in self.input_paths
+                input_path.parent / (input_path.name.split(".")[0] + "-dehead" + input_path.suffix) for input_path in self.input_paths
             ]
 
     def process(self):
@@ -46,5 +46,4 @@ class Dehead:
 if __name__ == "__main__":
     Dehead(
         input_paths=[PROJECT_DIR / "demo/demo-single-man.png"],
-        output_paths=[PROJECT_DIR / "demo/demo-single-man-dehead.png"],
     ).process()
