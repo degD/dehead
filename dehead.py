@@ -33,17 +33,18 @@ class Dehead:
     def process(self):
         model = YOLO(MODEL_PATH)
         for i, input_path in enumerate(self.input_paths):
-            results = model(input_path)
-            for result in results:
-
-                box = list(result.boxes.xyxy.tolist()[0])
-                with Image.open(input_path) as img:
-                    draw = ImageDraw.Draw(img)
-                    draw.rectangle(box, fill="black")
                 
-                img.save(self.output_paths[i])
+                with Image.open(input_path) as img:
+
+                    results = model(input_path)
+                    boxes =  results[0].boxes.xyxy.tolist()
+                    for box in boxes:
+                        draw = ImageDraw.Draw(img)
+                        draw.rectangle(box, fill="black")
+
+                    img.save(self.output_paths[i])
 
 if __name__ == "__main__":
     Dehead(
-        input_paths=[PROJECT_DIR / "demo/demo-single-man.png"],
+        input_paths=[PROJECT_DIR / "demo/family.png"],
     ).process()
