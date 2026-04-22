@@ -3,7 +3,7 @@ name = "dehead"
 version = "0.1.0"
 description = "dehead is a simple command-line tool for automatic anonymization"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 dependencies = [
     "ultralytics>=8.4.40",
 ]
