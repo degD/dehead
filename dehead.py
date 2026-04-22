@@ -33,6 +33,7 @@ class Dehead:
 
     def process(self):
         model = YOLO(MODEL_PATH)
+        model.conf = self.threshold
         for i, input_path in enumerate(self.input_paths):
                 
                 with Image.open(input_path) as img:
@@ -48,7 +49,6 @@ class Dehead:
                             int(mask[1] + mask[3] * self.mask_scale / 2),
                         ]
 
-                        # TODO: Refactor needed to avoid code duplication
                         if self.solid_mask:
                             draw = ImageDraw.Draw(img)
                             if self.boxes:
@@ -71,6 +71,7 @@ if __name__ == "__main__":
     Dehead(
         input_paths=[PROJECT_DIR / "demo/family.png"],
         output_paths=[PROJECT_DIR / "demo/family-dehead.png"],
+        threshold=0.2,
         mask_scale=0.8,
         boxes=False,
         solid_mask=False,
