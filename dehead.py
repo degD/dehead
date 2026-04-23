@@ -8,6 +8,7 @@ import shutil
 
 PROJECT_DIR = Path(__file__).parent
 MODEL_PATH = PROJECT_DIR / "best.pt"
+FPS = 30
 DEFAULT_THRESHOLD = 0.2
 DEFAULT_BOXES = False
 DEFAULT_MASK_SCALE = 1.2
@@ -135,7 +136,7 @@ class Dehead:
 
             frame = cv2.imread(str(frames_output_path / "frame0.jpg"))
             height, width, _ = frame.shape
-            output_video = cv2.VideoWriter(str(output_path), cv2.VideoWriter_fourcc(*"mp4v"), 30, (width, height))
+            output_video = cv2.VideoWriter(str(output_path), cv2.VideoWriter_fourcc(*"mp4v"), FPS, (width, height))
 
             count = len(list(frames_input_path.glob("frame*.jpg")))
             for i in range(count):
