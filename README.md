@@ -4,7 +4,8 @@
 `dehead` is a simple command-line tool for automatic anonymization in videos or photos.
 Inspired from [deface](https://github.com/ORB-HD/deface). Uses YOLO internally. 
 Pretrained YOLO model sourced from [this project](https://github.com/Owen718/Head-Detection-Yolov8).
-If pretrained model is not available there, you can [download it here (community-hosted mirror)](https://github.com/degD/dehead/releases/tag/v0.1.0) as well. Download `best.pt` and place it under project root.
+If pretrained model is not available there, you can [download it here (community-hosted mirror)](https://github.com/degD/dehead/releases/tag/v0.1.0) as well. 
+Download `best.pt` and place it under project root.
 
 This project is created for edge cases, where tools like `deface` fail to
 anonymize side views or back views of heads.
@@ -27,7 +28,8 @@ https://github.com/user-attachments/assets/3b53d6c4-7ead-41d2-9f9d-88a68a25c87f
 3. Make sure `python3.12` or newer is installed.
 4. Install dependencies with `uv sync`.
 5. Add `bin/` subdirectory to path.
-6. Run `dehead`.
+6. Download and place model weights. See releases.
+7. Run `dehead`.
 
 ## Usage
 
