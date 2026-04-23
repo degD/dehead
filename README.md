@@ -10,17 +10,10 @@ anonymize side views of faces in some high motion frames.
 
 ## Installation (using `uv`)
 
-1. Clone the repo: `git clone repo_path_wip`.
-2. Install dependencies with `uv sync`.
-3. Add `bin/` subdirectory to path.
-4. Run `dehead`.
-
-## Installation (using `python virtual environments`)
-
-1. Clone the repo: `git clone repo_path_wip`.
-2. Create a virtual environment: `python3 -m venv .venv`.
-3. Enable it: `source .venv/bin/activate`.
-4. `pip3 install ultralytics`
+1. Install [uv](https://docs.astral.sh/uv/).
+2. Clone the repo: `git clone https://github.com/degD/dehead && cd dehead`.
+3. Make sure `python3.12` or newer is installed.
+4. Install dependencies with `uv sync`.
 5. Add `bin/` subdirectory to path.
 6. Run `dehead`.
 
@@ -68,7 +61,7 @@ optional arguments:
                         processing. Increasing this number decreases the process
                         time, but increases memory consumption. Default: 16 
                         (3-4GB memory)
-  --version             Print version number and exit.
+  --version, -v         Print version number and exit.
   --help, -h            Show this help message and exit.
 ```
 
@@ -80,6 +73,7 @@ optional arguments:
 - Model weights are sourced from a different project, and could be removed in the future if requested.
 However, it is planned to train a model on a public dataset.
 - To change the blur radius, 
+- Requires Python 3.12 or newer to be installed.
 
 ## Credits
 

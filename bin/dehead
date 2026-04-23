@@ -1,2 +1,12 @@
 #!/bin/bash
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+VENV_DIR="$SCRIPT_DIR/../.venv"
+MAIN_PY="$SCRIPT_DIR/../deheadcli.py"
+
+if [ ! -d "$VENV_DIR" ]; then
+    echo "Virtual environment not found. Run 'uv sync'."
+else
+    source "$VENV_DIR/bin/activate"
+    python "$MAIN_PY" "$@"
+fi
