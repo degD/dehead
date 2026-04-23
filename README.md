@@ -11,16 +11,14 @@ anonymize side views or back views of heads.
 
 ## Demo videos
 
-<video src="demo/skate.mp4" controls muted playsinline width="100%"></video>
+### Original:
+https://github.com/user-attachments/assets/cc244aa2-a66c-4439-b1ef-166a8874919e
 
-### deface output
+### Deface:
+https://github.com/user-attachments/assets/79d284c1-3016-482a-84ac-dfa37d1d4992
 
-<video src="demo/skate_anonymized.mp4" controls muted playsinline width="100%"></video>
-
-### dehead output
-
-<video src="demo/skate-dehead.mp4" controls muted playsinline width="100%"></video>
-
+### Dehead:
+https://github.com/user-attachments/assets/3b53d6c4-7ead-41d2-9f9d-88a68a25c87f
 
 ## Installation (using `uv`)
 
