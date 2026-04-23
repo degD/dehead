@@ -4,7 +4,7 @@
 `dehead` is a simple command-line tool for automatic anonymization in videos or photos.
 Inspired from [deface](https://github.com/ORB-HD/deface). Uses YOLO internally. 
 Pretrained YOLO model sourced from [this project](https://github.com/Owen718/Head-Detection-Yolov8).
-If pretrained model is not available there, you can [download it here](WIP_LINK) as well.
+If pretrained model is not available there, you can [download it here (community-hosted mirror)](https://github.com/degD/dehead/releases/tag/v0.1.0) as well. Download `best.pt` and place it under project root.
 This project is created for edge cases, where face detectors in tools like `deface` fail to
 anonymize side views of faces in some high motion frames.
 
@@ -25,9 +25,9 @@ If you want to try out anonymizing a video using the default settings,
 you just need to supply the path to it. 
 For example, if the path to your test video is `myvideos/vid1.mp4`, run:
 
-    $ deface myvideos/vid1.mp4
+    $ dehead myvideos/vid1.mp4
 
-This will write the output to the file `myvideos/vid1_anonymized.mp4`.
+This will write the output to the file `myvideos/vid1-dehead.mp4`.
 
 ### CLI usage and options summary
 
@@ -70,8 +70,7 @@ optional arguments:
 - Inputs must be files, passing directories is not supported. But you can pass videos and images together.
 - Explicitly batches files for head detection, which might be slowing down the process slightly. 
 - Video files are processed without keeping the audio.
-- Model weights are sourced from a different project, and could be removed in the future if requested.
-However, it is planned to train a model on a public dataset.
+- Model weights are sourced from a different project, and could be removed in the future if requested. However, it is planned to train a model on a public dataset.
 - To change the blur radius, 
 - Requires Python 3.12 or newer to be installed.
 
