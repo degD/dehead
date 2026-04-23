@@ -31,41 +31,55 @@ class Dehead:
                 input_path.parent / (input_path.name.split(".")[0] + "-dehead" + input_path.suffix) for input_path in self.input_paths
             ]
 
-    def process_imgs(self):
+    def process_img(self, input_index: int):
         model = YOLO(MODEL_PATH)
         model.conf = self.threshold
-        for i, input_path in enumerate(self.input_paths):
-                
-                with Image.open(input_path) as img:
+        input_path = self.input_paths[input_index]
+        output_path = self.output_paths[input_index]
+        
+        with Image.open(input_path) as img:
+            results = model(input_path)
+            masks =  results[0].boxes.xywh.tolist()
+            for mask in masks:
 
-                    results = model(input_path)
-                    masks =  results[0].boxes.xywh.tolist()
-                    for mask in masks:
+                box = [
+                    int(mask[0] - mask[2] * self.mask_scale / 2),
+                    int(mask[1] - mask[3] * self.mask_scale / 2),
+                    int(mask[0] + mask[2] * self.mask_scale / 2),
+                    int(mask[1] + mask[3] * self.mask_scale / 2),
+                ]
 
-                        box = [
-                            int(mask[0] - mask[2] * self.mask_scale / 2),
-                            int(mask[1] - mask[3] * self.mask_scale / 2),
-                            int(mask[0] + mask[2] * self.mask_scale / 2),
-                            int(mask[1] + mask[3] * self.mask_scale / 2),
-                        ]
+                if self.solid_mask:
+                    draw = ImageDraw.Draw(img)
+                    if self.boxes:
+                        draw.rectangle(box, fill="black")
+                    else:
+                        draw.ellipse(box, fill="black")
+                else:
+                    blur_mask = Image.new("L", img.size, 0)
+                    blur_mask_draw = ImageDraw.Draw(blur_mask)
+                    if self.boxes:
+                        blur_mask_draw.rectangle(box, fill="white")
+                    else:
+                        blur_mask_draw.ellipse(box, fill="white")
+                    blurred_img = img.filter(ImageFilter.GaussianBlur(BLUR_RADIUS))
+                    img.paste(blurred_img, mask=blur_mask)
 
-                        if self.solid_mask:
-                            draw = ImageDraw.Draw(img)
-                            if self.boxes:
-                                draw.rectangle(box, fill="black")
-                            else:
-                                draw.ellipse(box, fill="black")
-                        else:
-                            blur_mask = Image.new("L", img.size, 0)
-                            blur_mask_draw = ImageDraw.Draw(blur_mask)
-                            if self.boxes:
-                                blur_mask_draw.rectangle(box, fill="white")
-                            else:
-                                blur_mask_draw.ellipse(box, fill="white")
-                            blurred_img = img.filter(ImageFilter.GaussianBlur(BLUR_RADIUS))
-                            img.paste(blurred_img, mask=blur_mask)
+            img.save(output_path)
 
-                    img.save(self.output_paths[i])
+    def process_video(self, input_index: int):
+        # Placeholder for video processing logic
+        pass
+
+    def process(self):
+        if self.input_paths[0].suffix.lower() in [".jpg", ".jpeg", ".png"]:
+            for i in range(len(self.input_paths)):
+                self.process_img(i)
+        elif self.input_paths[0].suffix.lower() in [".mp4", ".avi", ".mov"]:
+            for i in range(len(self.input_paths)):
+                self.process_video(i)
+        else:
+            raise ValueError("Unsupported file format. Supported formats are: .jpg, .jpeg, .png, .mp4, .avi, .mov")
 
 if __name__ == "__main__":
     Dehead(
@@ -75,4 +89,4 @@ if __name__ == "__main__":
         mask_scale=0.8,
         boxes=False,
         solid_mask=False,
-    ).process_imgs()
+    ).process()
