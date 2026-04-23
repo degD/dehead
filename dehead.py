@@ -8,18 +8,24 @@ import shutil
 
 PROJECT_DIR = Path(__file__).parent
 MODEL_PATH = PROJECT_DIR / "best.pt"
-BLUR_RADIUS = 42
-BATCH_SIZE = 16
+DEFAULT_THRESHOLD = 0.2
+DEFAULT_BOXES = False
+DEFAULT_MASK_SCALE = 1.2
+DEFAULT_SOLID_MASK = False
+DEFAULT_BLUR_RADIUS = 15
+DEFAULT_BATCH_SIZE = 16
 
 class Dehead: 
     """A class for deheading images using a specified threshold and options for output formatting."""
     def __init__(self,
         input_paths: list[Path],
         output_paths: list[Path] = None,
-        threshold: float = 0.2,
-        boxes: bool = False,
-        mask_scale: float = 1.2,
-        solid_mask: bool = False,
+        threshold: float = DEFAULT_THRESHOLD,
+        boxes: bool = DEFAULT_BOXES,
+        mask_scale: float = DEFAULT_MASK_SCALE,
+        solid_mask: bool = DEFAULT_SOLID_MASK,
+        blur_radius: int = DEFAULT_BLUR_RADIUS,
+        batch_size: int = DEFAULT_BATCH_SIZE
     ):
         self.input_paths = input_paths
         self.output_paths = output_paths
@@ -27,6 +33,8 @@ class Dehead:
         self.boxes = boxes
         self.mask_scale = mask_scale
         self.solid_mask = solid_mask
+        self.blur_radius = blur_radius
+        self.batch_size = batch_size
 
         if self.output_paths is None or len(self.output_paths) != len(self.input_paths):
             self.output_paths = [
@@ -77,8 +85,8 @@ class Dehead:
         model = YOLO(MODEL_PATH)
         results = []
 
-        for batch_start in range(0, len(self.input_paths), BATCH_SIZE):
-            batch_end = min(batch_start + BATCH_SIZE, len(self.input_paths))
+        for batch_start in range(0, len(self.input_paths), self.batch_size):
+            batch_end = min(batch_start + self.batch_size, len(self.input_paths))
             batch_input_paths = self.input_paths[batch_start:batch_end]
             batch_results = model.predict(
                 batch_input_paths,
@@ -113,7 +121,7 @@ class Dehead:
                             blur_mask_draw.rectangle(box, fill="white")
                         else:
                             blur_mask_draw.ellipse(box, fill="white")
-                        blurred_img = img.filter(ImageFilter.GaussianBlur(BLUR_RADIUS))
+                        blurred_img = img.filter(ImageFilter.GaussianBlur(self.blur_radius))
                         img.paste(blurred_img, mask=blur_mask)
 
                 img.save(output_path)

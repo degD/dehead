@@ -44,35 +44,42 @@ To get an overview of usage and available options, run:
 
 ```
 usage: dehead [--output O] [--thresh T] [--boxes] [--mask-scale M]
-              [--replacewith {blur,solid}] [--keep-audio]
+              [--replacewith {blur,solid}] [--blur-radius R] 
+              [--batch-size B]
               [--version] [--help] [input ...]
 
 Video anonymization by head detection
 
 positional arguments:
   input                 File path(s). It is possible to pass multiple paths.
-                        Alternatively, you can pass a directory as an input,
-                        in which case all files in the directory will be used
-                        as inputs. 
 
 optional arguments:
-  --output O, -o O      Output file name. Defaults to input path + postfix
-                        "-dehead".
+  --output O, -o O      Output file name. Defaults to input path + postfix "-dehead".
   --thresh T, -t T      Detection threshold. Default: 0.2.
   --boxes               Use boxes instead of ellipse masks.
   --mask-scale M        Scale factor for face masks, to make sure that masks
-                        cover the complete face. Default: 1.3.
+                        cover the complete face. Default: 1.2.
   --replacewith {blur,solid}
                         Anonymization filter mode for face regions. "blur"
                         applies a strong gaussian blurring, "solid" draws a
                         solid black box.
-  --keep-audio, -k      Keep audio from video source file and copy it over to
-                        the output (only applies to videos).
+  --blur-radius         Blur radius. Default: 15
+  --batch-size          Number of images to be loaded into memory for parallel
+                        processing. Increasing this number decreases the process
+                        time, but increases memory consumption. Default: 16 
+                        (3-4GB memory)
   --version             Print version number and exit.
   --help, -h            Show this help message and exit.
 ```
 
+## Known Issues
 
+- Inputs must be files, passing directories is not supported. But you can pass videos and images together.
+- Explicitly batches files for head detection, which might be slowing down the process slightly. 
+- Video files are processed without keeping the audio.
+- Model weights are sourced from a different project, and could be removed in the future if requested.
+However, it is planned to train a model on a public dataset.
+- To change the blur radius, 
 
 ## Credits
 
