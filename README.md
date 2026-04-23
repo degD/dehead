@@ -5,8 +5,19 @@
 Inspired from [deface](https://github.com/ORB-HD/deface). Uses YOLO internally. 
 Pretrained YOLO model sourced from [this project](https://github.com/Owen718/Head-Detection-Yolov8).
 If pretrained model is not available there, you can [download it here (community-hosted mirror)](https://github.com/degD/dehead/releases/tag/v0.1.0) as well. Download `best.pt` and place it under project root.
-This project is created for edge cases, where face detectors in tools like `deface` fail to
-anonymize side views of faces in some high motion frames.
+
+This project is created for edge cases, where tools like `deface` fail to
+anonymize side views or back views of heads.
+
+## Demo videos
+
+GitHub README does not reliably render inline video players for repository files.
+Use these links to open and play each clip:
+
+- Original: [skate.mp4](demo/skate.mp4)
+- `deface` output: [skate-deface.mp4](skate-deface.mp4)
+- `dehead` output: [skate-dehead.mp4](skate-dehead.mp4)
+
 
 ## Installation (using `uv`)
 
@@ -70,11 +81,9 @@ optional arguments:
 - Inputs must be files, passing directories is not supported. But you can pass videos and images together.
 - Explicitly batches files for head detection, which might be slowing down the process slightly. 
 - Video files are processed without keeping the audio.
-- Generated video files are in `mp4v` format independent from their extensions.
-- Generated video files are always in 30 FPS.
-- Model weights are sourced from a different project, and could be removed in the future if requested. However, it is planned to train a model on a public dataset.
-- To change the blur radius, 
-- Requires Python 3.12 or newer to be installed.
+- Generated video files are always re-encoded using `mp4v` at fixed 30 FPS, independent from source settings. This can increase file size and alter playback duration/speed for non-30 FPS inputs.
+- Model weights are sourced from a different project, and could be removed in the future if requested. Also, it could perform bad in some cases, or could be too large for others. However, it is planned to train a new model in the future that will hopefully mitigate these problems.
+- Progress display is missing.
 
 ## Credits
 
